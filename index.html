@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Invitation</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Georgia, serif;
+    background: #eee4d5;
+    color: #3b3028;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game {
+    width: 100%;
+    max-width: 700px;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* INTRO */
+#intro {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+}
+
+#intro h1 {
+    font-size: 38px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+#intro p {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 450px;
+}
+
+button {
+    border: none;
+    padding: 15px 28px;
+    margin-top: 20px;
+    border-radius: 30px;
+    background: #8c6252;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* ROOM */
+#room {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    background:
+        linear-gradient(#d9c7b1 0 60%, #9b765e 60% 100%);
+}
+
+#roomTitle {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+    z-index: 10;
+}
+
+#roomTitle h2 {
+    margin: 0;
+    font-weight: normal;
+}
+
+#counter {
+    margin-top: 8px;
+    font-size: 15px;
+}
+
+/* ROOM OBJECTS */
+
+.object {
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.table {
+    width: 240px;
+    height: 100px;
+    background: #6d4b39;
+    left: 50%;
+    bottom: 80px;
+    transform: translateX(-50%);
+    border-radius: 10px;
+}
+
+.table:after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 100px;
+    background: #4d3428;
+    left: 30px;
+    top: 60px;
+    box-shadow: 160px 0 #4d3428;
+}
+
+.picture {
+    width: 120px;
+    height: 150px;
+    border: 10px solid #8b6a43;
+    background: #f4eadc;
+    left: 12%;
+    top: 28%;
+}
+
+.flower {
+    font-size: 55px;
+    left: 67%;
+    bottom: 190px;
+}
+
+.book {
+    width: 70px;
+    height: 18px;
+    background: #674c83;
+    left: 28%;
+    bottom: 170px;
+    border-radius: 3px;
+}
+
+.curtain {
+    width: 75px;
+    height: 210px;
+    background: #b79b86;
+    right: 4%;
+    top: 20%;
+    border-radius: 0 0 30px 30px;
+}
+
+/* HEARTS */
+
+.heart {
+    position: absolute;
+    font-size: 30px;
+    z-index: 20;
+    display: none;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.found {
+    animation: disappear 0.4s forwards;
+}
+
+@keyframes disappear {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* WIN */
+
+#win {
+    display: none;
+    min-height: 100vh;
+    background: #f5ecdf;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+}
+
+#win h1 {
+    font-size: 42px;
+    font-weight: normal;
+}
+
+#win p {
+    font-size: 20px;
+    line-height: 1.7;
+}
+
+#invitation {
+    display: none;
+    min-height: 100vh;
+    background: #f7efe3;
+    text-align: center;
+    padding: 70px 25px;
+}
+
+#invitation h1 {
+    font-size: 40px;
+    font-weight: normal;
+}
+
+.names {
+    font-size: 32px;
+    margin: 30px 0;
+}
+
+.date {
+    font-size: 24px;
+}
+
+.hidden {
+    display: none !important;
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+    <!-- INTRO -->
+    <section id="intro">
+        <h1>A Little Secret</h1>
+
+        <p>
+            Something precious has been hidden in this room.
+            <br><br>
+            Find all <strong>5 hearts</strong> to unlock the invitation.
+        </p>
+
+        <button id="startButton">Enter the Room</button>
+    </section>
+
+
+    <!-- ROOM -->
+    <section id="room">
+
+        <div id="roomTitle">
+            <h2>Find the Hearts</h2>
+            <div id="counter">Hearts found: 0 / 5</div>
+        </div>
+
+        <!-- Decorative objects -->
+        <div class="object table"></div>
+        <div class="object picture"></div>
+        <div class="object flower">🌸</div>
+        <div class="object book"></div>
+        <div class="object curtain"></div>
+
+        <!-- Hidden hearts -->
+        <div class="heart" style="left: 22%; top: 38%;">❤️</div>
+        <div class="heart" style="left: 48%; top: 68%;">❤️</div>
+        <div class="heart" style="left: 72%; top: 55%;">❤️</div>
+        <div class="heart" style="left: 31%; top: 70%;">❤️</div>
+        <div class="heart" style="left: 88%; top: 38%;">❤️</div>
+
+    </section>
+
+
+    <!-- WIN -->
+    <section id="win">
+        <div>
+            <h1>✨ You found them all ✨</h1>
+
+            <p>
+                The secret has been unlocked.
+                <br><br>
+                Your invitation awaits...
+            </p>
+
+            <button id="openButton">Open the Invitation</button>
+        </div>
+    </section>
+
+
+    <!-- INVITATION -->
+    <section id="invitation">
+
+        <p>Mr. ______,</p>
+
+        <h1>You Are Invited</h1>
+
+        <div class="names">
+            Bride<br>
+            <small>&</small><br>
+            Groom
+        </div>
+
+        <div class="date">
+            Our Wedding<br><br>
+            <strong>DATE COMING SOON</strong>
+        </div>
+
+        <p>
+            We would be honored to have you<br>
+            celebrate this special day with us.
+        </p>
+
+    </section>
+
+</div>
+
+
+<script>
+
+const intro = document.getElementById("intro");
+const room = document.getElementById("room");
+const win = document.getElementById("win");
+const invitation = document.getElementById("invitation");
+
+const startButton = document.getElementById("startButton");
+const openButton = document.getElementById("openButton");
+
+const hearts = document.querySelectorAll(".heart");
+const counter = document.getElementById("counter");
+
+let found = 0;
+
+
+/* START GAME */
+
+startButton.addEventListener("click", function() {
+
+    intro.style.display = "none";
+    room.style.display = "block";
+
+    hearts.forEach(function(heart) {
+        heart.style.display = "block";
+    });
+
+});
+
+
+/* FIND HEARTS */
+
+hearts.forEach(function(heart) {
+
+    heart.addEventListener("click", function() {
+
+        if (heart.classList.contains("found")) {
+            return;
+        }
+
+        heart.classList.add("found");
+
+        found++;
+
+        counter.textContent = "Hearts found: " + found + " / 5";
+
+        if (found === 5) {
+
+            setTimeout(function() {
+
+                room.style.display = "none";
+                win.style.display = "flex";
+
+            }, 600);
+
+        }
+
+    });
+
+});
+
+
+/* OPEN INVITATION */
+
+openButton.addEventListener("click", function() {
+
+    win.style.display = "none";
+    invitation.style.display = "block";
+
+});
+
+</script>
+
+</body>
+</html>
