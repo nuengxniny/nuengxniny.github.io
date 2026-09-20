@@ -16,20 +16,41 @@ body {
     font-family: Georgia, serif;
     background: #eee4d5;
     color: #3b3028;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 #game {
     width: 100%;
     max-width: 700px;
     min-height: 100vh;
+    margin: auto;
     position: relative;
     overflow: hidden;
 }
 
-/* INTRO */
+/* =========================
+   GENERAL
+========================= */
+
+button {
+    border: none;
+    padding: 15px 28px;
+    margin-top: 20px;
+    border-radius: 30px;
+    background: #8c6252;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+/* =========================
+   PAGE 1
+========================= */
+
 #intro {
     min-height: 100vh;
     display: flex;
@@ -52,135 +73,330 @@ body {
     max-width: 450px;
 }
 
-button {
-    border: none;
-    padding: 15px 28px;
-    margin-top: 20px;
-    border-radius: 30px;
-    background: #8c6252;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
+/* =========================
+   PAGE 2 — GAME
+========================= */
 
-/* ROOM */
 #room {
     display: none;
     min-height: 100vh;
     position: relative;
     background:
-        linear-gradient(#d9c7b1 0 60%, #9b765e 60% 100%);
+        linear-gradient(
+            #d9c7b1 0 60%,
+            #9b765e 60% 100%
+        );
 }
 
 #roomTitle {
     position: absolute;
-    top: 20px;
+    top: 18px;
     width: 100%;
     text-align: center;
-    z-index: 10;
+    z-index: 100;
+    pointer-events: none;
 }
 
 #roomTitle h2 {
     margin: 0;
     font-weight: normal;
+    font-size: 30px;
 }
 
 #counter {
     margin-top: 8px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
-/* ROOM OBJECTS */
+/* =========================
+   OBJECTS
+========================= */
 
-.object {
+.gameObject {
     position: absolute;
     cursor: pointer;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 }
 
-.table {
-    width: 240px;
-    height: 100px;
-    background: #6d4b39;
-    left: 50%;
-    bottom: 80px;
-    transform: translateX(-50%);
-    border-radius: 10px;
+/* BOOK */
+
+#book {
+    left: 12%;
+    bottom: 27%;
+    width: 100px;
+    height: 70px;
+    background: #684b3c;
+    border-radius: 5px;
+    transform-origin: center;
+    transition: transform 0.7s ease;
 }
 
-.table:after {
+#book::before {
     content: "";
     position: absolute;
-    width: 18px;
-    height: 100px;
-    background: #4d3428;
-    left: 30px;
-    top: 60px;
-    box-shadow: 160px 0 #4d3428;
-}
-
-.picture {
-    width: 120px;
-    height: 150px;
-    border: 10px solid #8b6a43;
-    background: #f4eadc;
-    left: 12%;
-    top: 28%;
-}
-
-.flower {
-    font-size: 55px;
-    left: 67%;
-    bottom: 190px;
-}
-
-.book {
-    width: 70px;
-    height: 18px;
-    background: #674c83;
-    left: 28%;
-    bottom: 170px;
+    left: 10px;
+    top: 8px;
+    width: 80px;
+    height: 54px;
+    background: #d8c1a4;
     border-radius: 3px;
 }
 
-.curtain {
-    width: 75px;
-    height: 210px;
-    background: #b79b86;
-    right: 4%;
-    top: 20%;
-    border-radius: 0 0 30px 30px;
+#book.open {
+    transform: rotateX(65deg) scaleY(1.15);
 }
 
-/* HEARTS */
+#book.open::after {
+    content: "❤️";
+    position: absolute;
+    font-size: 28px;
+    left: 34px;
+    top: 12px;
+}
 
-.heart {
+/* BASS */
+
+#bassArea {
+    right: 8%;
+    bottom: 23%;
+    width: 150px;
+    height: 300px;
+    perspective: 700px;
+}
+
+#bass {
+    position: absolute;
+    width: 90px;
+    height: 230px;
+    left: 30px;
+    top: 30px;
+    transition: transform 0.8s ease;
+    transform-style: preserve-3d;
+}
+
+.bass-neck {
+    position: absolute;
+    width: 18px;
+    height: 160px;
+    background: #533a2d;
+    left: 36px;
+    top: 0;
+    border-radius: 8px;
+}
+
+.bass-body {
+    position: absolute;
+    width: 75px;
+    height: 90px;
+    background: #7b403b;
+    left: 7px;
+    bottom: 5px;
+    border-radius: 45% 45% 35% 35%;
+}
+
+.bass-string {
+    position: absolute;
+    width: 2px;
+    height: 210px;
+    background: #d9d9d9;
+    left: 43px;
+    top: 5px;
+}
+
+#bass.flipped {
+    transform: rotateY(180deg);
+}
+
+#bassHeart {
+    position: absolute;
+    display: none;
+    font-size: 30px;
+    left: 54px;
+    bottom: 35px;
+    z-index: 10;
+}
+
+/* LOCKET */
+
+#locket {
+    left: 50%;
+    top: 30%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 90px;
+}
+
+.locket-side {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: #c49a52;
+    border: 5px solid #916b32;
+    top: 12px;
+    transition: transform 0.8s ease;
+    z-index: 5;
+}
+
+#locketLeft {
+    left: 0;
+    transform-origin: right center;
+}
+
+#locketRight {
+    right: 0;
+    transform-origin: left center;
+}
+
+#locket.open #locketLeft {
+    transform: rotateY(-115deg);
+}
+
+#locket.open #locketRight {
+    transform: rotateY(115deg);
+}
+
+#locketHeart {
+    position: absolute;
+    display: none;
+    left: 30px;
+    top: 27px;
+    font-size: 28px;
+    z-index: 2;
+}
+
+/* BOX */
+
+#box {
+    left: 40%;
+    bottom: 12%;
+    width: 110px;
+    height: 80px;
+}
+
+.box-base {
+    position: absolute;
+    bottom: 0;
+    width: 110px;
+    height: 55px;
+    background: #72503b;
+    border-radius: 5px;
+}
+
+.box-lid {
+    position: absolute;
+    width: 120px;
+    height: 25px;
+    left: -5px;
+    bottom: 48px;
+    background: #8a6145;
+    border-radius: 5px;
+    transform-origin: bottom center;
+    transition: transform 0.7s ease;
+    z-index: 3;
+}
+
+#box.open .box-lid {
+    transform: rotateX(-105deg) translateY(-8px);
+}
+
+#boxHeart {
+    position: absolute;
+    display: none;
+    font-size: 28px;
+    left: 39px;
+    bottom: 20px;
+    z-index: 2;
+}
+
+/* RUBBER DUCK */
+
+#duck {
+    right: 27%;
+    bottom: 13%;
+    width: 70px;
+    height: 70px;
+    font-size: 55px;
+    text-align: center;
+    transition: transform 0.4s ease;
+}
+
+#duck.bounce {
+    animation: duckBounce 0.7s ease;
+}
+
+@keyframes duckBounce {
+    0%   { transform: translateY(0) rotate(0); }
+    30%  { transform: translateY(-30px) rotate(-8deg); }
+    60%  { transform: translateY(0) rotate(8deg); }
+    100% { transform: translateY(0) rotate(0); }
+}
+
+#duckHeart {
+    position: absolute;
+    display: none;
+    font-size: 27px;
+    top: -5px;
+    left: 22px;
+}
+
+/* =========================
+   HEART COLLECTION
+========================= */
+
+.collectHeart {
     position: absolute;
     font-size: 30px;
-    z-index: 20;
-    display: none;
-    animation: pulse 1.5s infinite;
+    cursor: pointer;
+    z-index: 50;
+    animation: heartAppear 0.5s ease;
 }
 
-@keyframes pulse {
-    50% {
-        transform: scale(1.2);
+@keyframes heartAppear {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
     }
 }
 
-.found {
-    animation: disappear 0.4s forwards;
+.collected {
+    animation: heartCollect 0.5s forwards;
 }
 
-@keyframes disappear {
+@keyframes heartCollect {
     to {
-        transform: scale(2);
+        transform: scale(1.8);
         opacity: 0;
     }
 }
 
-/* WIN */
+/* =========================
+   OBJECT MESSAGE
+========================= */
+
+#hint {
+    position: absolute;
+    bottom: 4%;
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#hint.show {
+    opacity: 1;
+}
+
+/* =========================
+   PAGE 3
+========================= */
 
 #win {
     display: none;
@@ -201,6 +417,10 @@ button {
     font-size: 20px;
     line-height: 1.7;
 }
+
+/* =========================
+   PAGE 4
+========================= */
 
 #invitation {
     display: none;
@@ -223,10 +443,6 @@ button {
 .date {
     font-size: 24px;
 }
-
-.hidden {
-    display: none !important;
-}
 </style>
 </head>
 
@@ -234,85 +450,184 @@ button {
 
 <div id="game">
 
-    <!-- INTRO -->
-    <section id="intro">
-        <h1>A Little Secret</h1>
+<!-- =========================
+     PAGE 1
+========================= -->
+
+<section id="intro">
+
+    <h1>A Little Secret</h1>
+
+    <p>
+        Something precious has been hidden in this room.
+        <br><br>
+        Find all <strong>5 hearts</strong> to unlock the invitation.
+    </p>
+
+    <button id="startButton">
+        Enter the Room
+    </button>
+
+</section>
+
+
+<!-- =========================
+     PAGE 2 — GAME
+========================= -->
+
+<section id="room">
+
+    <div id="roomTitle">
+        <h2>Find the Hearts</h2>
+        <div id="counter">
+            Hearts found: 0 / 5
+        </div>
+    </div>
+
+
+    <!-- BOOK -->
+
+    <div id="book" class="gameObject">
+    </div>
+
+
+    <!-- BASS -->
+
+    <div id="bassArea" class="gameObject">
+
+        <div id="bass">
+
+            <div class="bass-neck"></div>
+            <div class="bass-body"></div>
+            <div class="bass-string"></div>
+
+        </div>
+
+        <div id="bassHeart">
+            ❤️
+        </div>
+
+    </div>
+
+
+    <!-- LOCKET -->
+
+    <div id="locket" class="gameObject">
+
+        <div id="locketHeart">
+            ❤️
+        </div>
+
+        <div id="locketLeft" class="locket-side"></div>
+        <div id="locketRight" class="locket-side"></div>
+
+    </div>
+
+
+    <!-- BOX -->
+
+    <div id="box" class="gameObject">
+
+        <div class="box-base"></div>
+        <div class="box-lid"></div>
+
+        <div id="boxHeart">
+            ❤️
+        </div>
+
+    </div>
+
+
+    <!-- RUBBER DUCK -->
+
+    <div id="duck" class="gameObject">
+
+        🦆
+
+        <div id="duckHeart">
+            ❤️
+        </div>
+
+    </div>
+
+
+    <div id="hint"></div>
+
+</section>
+
+
+<!-- =========================
+     PAGE 3
+========================= -->
+
+<section id="win">
+
+    <div>
+
+        <h1>
+            ✨ You found them all ✨
+        </h1>
 
         <p>
-            Something precious has been hidden in this room.
+            The secret has been unlocked.
             <br><br>
-            Find all <strong>5 hearts</strong> to unlock the invitation.
+            Your invitation awaits...
         </p>
 
-        <button id="startButton">Enter the Room</button>
-    </section>
+        <button id="openButton">
+            Open the Invitation
+        </button>
+
+    </div>
+
+</section>
 
 
-    <!-- ROOM -->
-    <section id="room">
+<!-- =========================
+     PAGE 4
+========================= -->
 
-        <div id="roomTitle">
-            <h2>Find the Hearts</h2>
-            <div id="counter">Hearts found: 0 / 5</div>
-        </div>
+<section id="invitation">
 
-        <!-- Decorative objects -->
-        <div class="object table"></div>
-        <div class="object picture"></div>
-        <div class="object flower">🌸</div>
-        <div class="object book"></div>
-        <div class="object curtain"></div>
+    <p>
+        Mr. ______,
+    </p>
 
-        <!-- Hidden hearts -->
-        <div class="heart" style="left: 22%; top: 38%;">❤️</div>
-        <div class="heart" style="left: 48%; top: 68%;">❤️</div>
-        <div class="heart" style="left: 72%; top: 55%;">❤️</div>
-        <div class="heart" style="left: 31%; top: 70%;">❤️</div>
-        <div class="heart" style="left: 88%; top: 38%;">❤️</div>
+    <h1>
+        You Are Invited
+    </h1>
 
-    </section>
+    <div class="names">
 
+        Bride
+        <br>
 
-    <!-- WIN -->
-    <section id="win">
-        <div>
-            <h1>✨ You found them all ✨</h1>
+        <small>&</small>
 
-            <p>
-                The secret has been unlocked.
-                <br><br>
-                Your invitation awaits...
-            </p>
+        <br>
 
-            <button id="openButton">Open the Invitation</button>
-        </div>
-    </section>
+        Groom
 
+    </div>
 
-    <!-- INVITATION -->
-    <section id="invitation">
+    <div class="date">
 
-        <p>Mr. ______,</p>
+        Our Wedding
+        <br><br>
 
-        <h1>You Are Invited</h1>
+        <strong>
+            DATE COMING SOON
+        </strong>
 
-        <div class="names">
-            Bride<br>
-            <small>&</small><br>
-            Groom
-        </div>
+    </div>
 
-        <div class="date">
-            Our Wedding<br><br>
-            <strong>DATE COMING SOON</strong>
-        </div>
+    <p>
+        We would be honored to have you
+        <br>
+        celebrate this special day with us.
+    </p>
 
-        <p>
-            We would be honored to have you<br>
-            celebrate this special day with us.
-        </p>
-
-    </section>
+</section>
 
 </div>
 
@@ -327,59 +642,310 @@ const invitation = document.getElementById("invitation");
 const startButton = document.getElementById("startButton");
 const openButton = document.getElementById("openButton");
 
-const hearts = document.querySelectorAll(".heart");
 const counter = document.getElementById("counter");
+const hint = document.getElementById("hint");
 
 let found = 0;
 
+let bookHeartFound = false;
+let bassHeartFound = false;
+let locketHeartFound = false;
+let boxHeartFound = false;
+let duckHeartFound = false;
 
-/* START GAME */
+
+/* =========================
+   START GAME
+========================= */
 
 startButton.addEventListener("click", function() {
 
     intro.style.display = "none";
     room.style.display = "block";
 
-    hearts.forEach(function(heart) {
+});
+
+
+/* =========================
+   BOOK
+========================= */
+
+const book = document.getElementById("book");
+
+book.addEventListener("click", function() {
+
+    if (bookHeartFound) return;
+
+    book.classList.add("open");
+
+    showHint("The book opens...");
+
+    setTimeout(function() {
+
+        if (!bookHeartFound) {
+
+            const heart = document.createElement("div");
+
+            heart.className = "collectHeart";
+            heart.textContent = "❤️";
+
+            heart.style.left = "24%";
+            heart.style.bottom = "31%";
+
+            room.appendChild(heart);
+
+            heart.addEventListener("click", function(event) {
+
+                event.stopPropagation();
+
+                collectHeart(heart, "book");
+
+            });
+
+        }
+
+    }, 700);
+
+});
+
+
+/* =========================
+   BASS
+========================= */
+
+const bassArea = document.getElementById("bassArea");
+const bass = document.getElementById("bass");
+
+bassArea.addEventListener("click", function() {
+
+    if (bassHeartFound) return;
+
+    bass.classList.add("flipped");
+
+    showHint("Something was hidden behind the bass...");
+
+    setTimeout(function() {
+
+        const heart = document.getElementById("bassHeart");
+
         heart.style.display = "block";
-    });
+
+        heart.onclick = function(event) {
+
+            event.stopPropagation();
+
+            collectExistingHeart(heart, "bass");
+
+        };
+
+    }, 700);
 
 });
 
 
-/* FIND HEARTS */
+/* =========================
+   LOCKET
+========================= */
 
-hearts.forEach(function(heart) {
+const locket = document.getElementById("locket");
 
-    heart.addEventListener("click", function() {
+locket.addEventListener("click", function() {
 
-        if (heart.classList.contains("found")) {
-            return;
-        }
+    if (locketHeartFound) return;
 
-        heart.classList.add("found");
+    locket.classList.add("open");
 
-        found++;
+    showHint("The locket opens...");
 
-        counter.textContent = "Hearts found: " + found + " / 5";
+    setTimeout(function() {
 
-        if (found === 5) {
+        const heart = document.getElementById("locketHeart");
 
-            setTimeout(function() {
+        heart.style.display = "block";
 
-                room.style.display = "none";
-                win.style.display = "flex";
+        heart.onclick = function(event) {
 
-            }, 600);
+            event.stopPropagation();
 
-        }
+            collectExistingHeart(heart, "locket");
 
-    });
+        };
+
+    }, 700);
 
 });
 
 
-/* OPEN INVITATION */
+/* =========================
+   BOX
+========================= */
+
+const box = document.getElementById("box");
+
+box.addEventListener("click", function() {
+
+    if (boxHeartFound) return;
+
+    box.classList.add("open");
+
+    showHint("The box opens...");
+
+    setTimeout(function() {
+
+        const heart = document.getElementById("boxHeart");
+
+        heart.style.display = "block";
+
+        heart.onclick = function(event) {
+
+            event.stopPropagation();
+
+            collectExistingHeart(heart, "box");
+
+        };
+
+    }, 700);
+
+});
+
+
+/* =========================
+   RUBBER DUCK
+========================= */
+
+const duck = document.getElementById("duck");
+
+duck.addEventListener("click", function() {
+
+    if (duckHeartFound) return;
+
+    duck.classList.remove("bounce");
+
+    void duck.offsetWidth;
+
+    duck.classList.add("bounce");
+
+    showHint("SQUEAK!");
+
+    setTimeout(function() {
+
+        const heart = document.getElementById("duckHeart");
+
+        heart.style.display = "block";
+
+        heart.onclick = function(event) {
+
+            event.stopPropagation();
+
+            collectExistingHeart(heart, "duck");
+
+        };
+
+    }, 500);
+
+});
+
+
+/* =========================
+   COLLECT NEW HEART
+========================= */
+
+function collectHeart(heart, object) {
+
+    if (object === "book") {
+        bookHeartFound = true;
+    }
+
+    heart.classList.add("collected");
+
+    setTimeout(function() {
+        heart.remove();
+    }, 500);
+
+    addFound();
+
+}
+
+
+/* =========================
+   COLLECT EXISTING HEART
+========================= */
+
+function collectExistingHeart(heart, object) {
+
+    if (
+        (object === "bass" && bassHeartFound) ||
+        (object === "locket" && locketHeartFound) ||
+        (object === "box" && boxHeartFound) ||
+        (object === "duck" && duckHeartFound)
+    ) {
+        return;
+    }
+
+    if (object === "bass") bassHeartFound = true;
+    if (object === "locket") locketHeartFound = true;
+    if (object === "box") boxHeartFound = true;
+    if (object === "duck") duckHeartFound = true;
+
+    heart.classList.add("collected");
+
+    setTimeout(function() {
+
+        heart.style.display = "none";
+
+    }, 500);
+
+    addFound();
+
+}
+
+
+/* =========================
+   COUNTER
+========================= */
+
+function addFound() {
+
+    found++;
+
+    counter.textContent =
+        "Hearts found: " + found + " / 5";
+
+    if (found === 5) {
+
+        setTimeout(function() {
+
+            room.style.display = "none";
+            win.style.display = "flex";
+
+        }, 900);
+
+    }
+
+}
+
+
+/* =========================
+   HINT
+========================= */
+
+function showHint(message) {
+
+    hint.textContent = message;
+    hint.classList.add("show");
+
+    setTimeout(function() {
+
+        hint.classList.remove("show");
+
+    }, 1800);
+
+}
+
+
+/* =========================
+   OPEN INVITATION
+========================= */
 
 openButton.addEventListener("click", function() {
 
