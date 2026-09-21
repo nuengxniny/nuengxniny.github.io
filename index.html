@@ -904,6 +904,27 @@ button:active{
       scale(.8);
   }
 }
+  /* REAL ROOM BACKGROUND */
+.room{
+  background-image:url("room-clean.png");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+/* Hide old CSS room furniture */
+.room > .window,
+.room > .shelf,
+.room > .table,
+.room > .rug,
+.room > .floor{
+  display:none;
+}
+
+/* Remove old room overlay */
+.room:before{
+  display:none;
+}
 </style>
 </head>
 
